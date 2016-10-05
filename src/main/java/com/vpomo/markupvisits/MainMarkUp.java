@@ -28,22 +28,28 @@ public class MainMarkUp {
             WebDriver driver = new HtmlUnitDriver();
 
             // Открываем Google
-            driver.get("http://www.google.ru");
-            //driver.findElement(By.id("top-image")).click();
-
+            driver.get("http://f1.amurobl.ru/reportglonass/");
+        sleep(1000);
+        driver.findElement(By.id("top-image")).click();
+        driver.findElement(By.linkText("Аппарат губернатора области и Правительства области")).click();
+        sleep(1000);
+        driver.findElement(By.id("top-image")).click();
+        driver.findElement(By.linkText("Сковородинский район")).click();
+        sleep(1000);
             // Находим по имени поле для ввода
-            WebElement element = driver.findElement(By.name("q"));
+            //WebElement element = driver.findElement(By.name("q"));
 
             // Вводим ключевое слово для поиска
-            element.sendKeys("гладиолус");
+            //element.sendKeys("гладиолус");
 
             // Отправляем форму в которой находится элемент element.
             // WebDriver сам найдет, в какой он форме.
-            element.submit();
+            //element.submit();
 
             // Выводим в консоль заголовок страницы
             //System.out.println("Page title is: " + driver.getTitle());
             System.out.println("Page Source is: " + driver.getPageSource());
+        driver.quit();
 
     }
 
