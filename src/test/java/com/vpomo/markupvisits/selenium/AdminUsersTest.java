@@ -1,4 +1,4 @@
-package com.vpomo.reportglonass.web;
+package com.vpomo.markupvisits.selenium;
 
 import org.junit.After;
 import org.junit.Before;
@@ -31,13 +31,13 @@ public class AdminUsersTest {
 
     @Test
     public void testJavaTest1() throws Exception {
-        sleep(1000);
+        sleep(3000);
         driver.findElement(By.id("top-image")).click();
         driver.findElement(By.linkText("Аппарат губернатора области и Правительства области")).click();
-        sleep(1000);
+        sleep(3000);
         driver.findElement(By.id("top-image")).click();
         driver.findElement(By.linkText("Сковородинский район")).click();
-        sleep(1000);
+        sleep(3000);
     }
 
 
