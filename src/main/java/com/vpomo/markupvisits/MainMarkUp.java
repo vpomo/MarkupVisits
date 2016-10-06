@@ -4,6 +4,8 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
+import java.util.concurrent.TimeUnit;
+
 import static java.lang.Thread.sleep;
 import static org.assertj.core.api.Fail.fail;
 
@@ -16,19 +18,21 @@ public class MainMarkUp {
     private boolean acceptNextAlert = true;
     private static StringBuffer verificationErrors = new StringBuffer();
 
-    public static void main (String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
         System.out.println("Right");
 /*        initDriver();
         clickLinkApparat();
         downMarkUp();
 */
-            // создаем новый экземпляр html unit driver
-            // Обратите внимание, что последующий код не закладывается на
-            // конкретную, имплементацию, а только на интерфейс WebDriver.
-            WebDriver driver = new HtmlUnitDriver();
+        // создаем новый экземпляр html unit driver
+        // Обратите внимание, что последующий код не закладывается на
+        // конкретную, имплементацию, а только на интерфейс WebDriver.
+        WebDriver driver = new HtmlUnitDriver();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
 
-            // Открываем Google
-            driver.get("http://f1.amurobl.ru/reportglonass/");
+        // Открываем Google
+        driver.get("http://f1.amurobl.ru/reportglonass/");
         sleep(1000);
         driver.findElement(By.id("top-image")).click();
         driver.findElement(By.linkText("Аппарат губернатора области и Правительства области")).click();
@@ -36,24 +40,26 @@ public class MainMarkUp {
         driver.findElement(By.id("top-image")).click();
         driver.findElement(By.linkText("Сковородинский район")).click();
         sleep(1000);
-            // Находим по имени поле для ввода
-            //WebElement element = driver.findElement(By.name("q"));
+        // Находим по имени поле для ввода
+        //WebElement element = driver.findElement(By.name("q"));
 
-            // Вводим ключевое слово для поиска
-            //element.sendKeys("гладиолус");
+        // Вводим ключевое слово для поиска
+        //element.sendKeys("гладиолус");
 
-            // Отправляем форму в которой находится элемент element.
-            // WebDriver сам найдет, в какой он форме.
-            //element.submit();
+        // Отправляем форму в которой находится элемент element.
+        // WebDriver сам найдет, в какой он форме.
+        //element.submit();
 
-            // Выводим в консоль заголовок страницы
-            //System.out.println("Page title is: " + driver.getTitle());
-            System.out.println("Page Source is: " + driver.getPageSource());
-        driver.quit();
+        // Выводим в консоль заголовок страницы
+        //System.out.println("Page title is: " + driver.getTitle());
+        System.out.println("Page Source is: " + driver.getPageSource());
+        if (driver != null) {
+            driver.quit();
+        }
 
     }
 
-    public static void initDriver (){
+    public static void initDriver() {
         driver = new FirefoxDriver();
         baseUrl = "http://f1.amurobl.ru/reportglonass/";
         driver.navigate().to(baseUrl);

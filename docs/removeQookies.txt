@@ -1,0 +1,19 @@
+http://automated-testing.info/t/kak-udalit-kuki-so-vseh-domenov-bez-perezapuska-brauzera/6812/2
+
+====================================================
+driver.deleteAllCookies();
+====================================================
+
+====================================================
+ICookieJar cookieJar = driver.Manage().Cookies;
+cookieJar.DeleteAllCookies();
+====================================================
+
+
+====================================================
+driver.get("chrome://settings/cookies"); // переход на страницу настроек
+final By cleanCacheIframe = By.xpath("//iframe[@src='chrome://settings-frame/cookies']"); //фрейм с кнопкой для удаления
+driver.switchTo().frame(driver.findElement(cleanCacheIframe));
+driver.findElement(By.xpath("//*[@class='remove-all-cookies-button']")).click(); // нажатие на кнопку удаления
+====================================================
+

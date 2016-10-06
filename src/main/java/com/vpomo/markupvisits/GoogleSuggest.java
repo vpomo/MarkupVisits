@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Pomogalov on 05.10.2016.
@@ -13,25 +14,17 @@ import java.util.List;
 public class GoogleSuggest {
     public static void main(String[] args) throws Exception {
         // Драйвер Firefox поддерживает javascript
+        System.setProperty("webdriver.chrome.driver", "D:/Java/WebDriver/chromedriver.exe");
         WebDriver driver = new ChromeDriver();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
 
         // Открываем страничку Google
-        driver.get("http://www.google.com.ua/webhp?complete=1&hl=ru");
+        driver.get("http://www.google.ru");
 
         WebElement query = driver.findElement(By.name("q"));
         // Вводим ключевое слово
         query.sendKeys("гладиолус");
-
-        // Ждем 5 секунд, или пока не появился div с подсказками
-        long end = System.currentTimeMillis() + 5000;
-        while (System.currentTimeMillis() < end) {
-            WebElement resultsDiv = driver.findElement(By.className("gssb_e"));
-
-            // Если div отобразился выходим из цикла
-            if (resultsDiv.isDisplayed()) {
-                break;
-            }
-        }
 
         // Получаем список подсказок
         List<WebElement> allSuggestions = driver.findElements(By.xpath("//td[@class='gssb_a gbqfsf']"));
@@ -39,5 +32,9 @@ public class GoogleSuggest {
         for (WebElement suggestion : allSuggestions) {
             System.out.println(suggestion.getText());
         }
+        if (driver != null) {
+            driver.quit();
+        }
     }
 }
+

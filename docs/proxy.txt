@@ -1,0 +1,54 @@
+http://internetka.in.ua/selenium-proxy/
+
+Самый простой способ запуска автотестов через прокси заключается в ручном изменении настроек Вашей операционной системы.
+Для того же, чтобы изменить настройки программным путем, можно использовать класс Capabilities. Использование Capabilities временно изменяет системные настройки прокси. После завершения работы драйвера они будут возвращены к исходным значениям.
+
+Пример настройки FirefoxDriver:
+
+import org.openqa.selenium.Proxy;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+ 
+ 
+Proxy proxy = new Proxy();
+proxy.setHttpProxy("localhost:8888");
+ 
+DesiredCapabilities capabilities = new DesiredCapabilities();
+capabilities.setCapability(CapabilityType.PROXY, proxy);
+ 
+WebDriver driver = new FirefoxDriver(capabilities);
+
+
+Аналогично выполняется настройка для InternetExplorerDriver и RemoteWebDriver.
+
+Mozilla Firefox также содержит настройки прокси в профиле. Поэтому для запуска Firefox через proxy можно использовать второй способ — профиль с предустановленными необходимыми значениями:
+
+FirefoxProfile profile = new FirefoxProfile();
+ 
+profile.setPreference("network.proxy.type", 1);
+profile.setPreference("network.proxy.http", "localhost");
+profile.setPreference("network.proxy.http_port", 8888);
+ 
+WebDriver driver = new FirefoxDriver(profile);
+Ключи и значения настроек сети для Mozilla Firefox: Mozilla networking preferences
+
+
+
+
+Начиная с версии 2.16 Capabilities для ChromeDriver больше не используется, вместо него необходимо использовать ChromeOptions. Настройка прокси для ChromeDriver выглядит следующим образом:
+
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+ 
+ChromeOptions option = new ChromeOptions();
+option.addArguments("--proxy-server=http://" + PROXY);
+WebDriver driver = new ChromeDriver(option);
+Запуск тестов через прокси используется не только при работе с прокси-серверами но и, например, для блокировки лишнего контента при тестировании и тем самым увеличения скорости загрузки страниц.
+
+
+
+
+
+
+https://github.com/barancev/selen-confetqa-2013

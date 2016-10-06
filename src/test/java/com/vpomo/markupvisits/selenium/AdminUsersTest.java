@@ -6,6 +6,8 @@ import org.junit.Test;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import java.util.concurrent.TimeUnit;
+
 import static java.lang.Thread.sleep;
 import static org.junit.Assert.fail;
 
@@ -23,7 +25,10 @@ public class AdminUsersTest {
 
     @Before
     public void setUp() throws Exception {
+        System.setProperty("webdriver.FirefoxDriver.driver", "D:/Java/WebDriver/geckodriver.exe");
         driver = new FirefoxDriver();
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
         baseUrl = "http://f1.amurobl.ru/reportglonass/";
         driver.navigate().to(baseUrl);
     }

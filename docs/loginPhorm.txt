@@ -1,0 +1,16 @@
+http://bugscatcher.net/archives/1232
+
+
+Описываем элементы страницы Login:
+
+        IWebElement LoginButton = driver.FindElement(By.Id("LoginControl_LoginButton"));
+        IWebElement UserNameTextBox = driver.FindElement(By.Id("LoginControl_UserName"));
+        IWebElement PasswordTextBox = driver.FindElement(By.Id("LoginControl_Password"));
+
+Описание метода LoginAsAdministrator:
+
+        public void LoginAsAdministrator()
+        {
+            UserNameTextBox.SendKeys("Administrator");
+            PasswordTextBox.SendKeys("admin");
+            LoginButton.Click();
