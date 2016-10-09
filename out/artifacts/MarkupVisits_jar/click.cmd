@@ -1,1 +1,1 @@
-java -cp "MarkupVisits.jar" com.vpomo.markupvisits.MainMarkUp
+java -cp "MarkupVisits.jar" com.vpomo.markupvisits.os.makeJAR.MainMarkUp
