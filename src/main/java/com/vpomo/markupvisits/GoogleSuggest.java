@@ -18,20 +18,20 @@ public class GoogleSuggest {
 
     public static void main(String[] args) throws Exception {
         // Драйвер Firefox поддерживает javascript
-        String proxyAddressPort;
-        String PROXY = "104.237.228.56:1080";
+        String PROXY = "5.9.117.40:3128";
         System.setProperty("webdriver.chrome.driver", "D:/Java/WebDriver/chromedriver.exe");
 
         org.openqa.selenium.Proxy proxy = new org.openqa.selenium.Proxy();
         proxy.setHttpProxy(PROXY)
                 .setFtpProxy(PROXY)
-                .setSslProxy(PROXY)
-                .setSocksProxy(PROXY);
+                .setSslProxy(PROXY);
+
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(CapabilityType.PROXY, proxy);
 
         ChromeOptions option = new ChromeOptions();
         option.addArguments("start-maximized");
+        //option.addArguments("--window-size=500,500");
         capabilities.setCapability(ChromeOptions.CAPABILITY, option);
 
         WebDriver driver = new ChromeDriver(capabilities);
@@ -46,15 +46,24 @@ public class GoogleSuggest {
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
 
-        baseUrl = "http://speed-tester.info/check_ip.php";
-
+        //baseUrl = "http://speed-tester.info/check_ip.php";
+        baseUrl = "http://evroremont.amit.ru/";
         try {
             driver.get(baseUrl);
             sleep(3000);
-            driver.quit();
         } catch (Exception e) {
-            driver.quit();
+            driver.close();
+
         }
+
+        baseUrl = "https://whoer.net/ru";
+        try {
+            driver.get(baseUrl);
+            sleep(3000);
+        } catch (Exception e) {
+            driver.close();
+        }
+        driver.quit();
     }
 }
 

@@ -1,8 +1,12 @@
 package com.vpomo.markupvisits;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.util.concurrent.TimeUnit;
 
@@ -13,74 +17,71 @@ import static org.assertj.core.api.Fail.fail;
  * Created by Pomogalov on 04.10.2016.
  */
 public class MainMarkUp {
-    private static WebDriver driver;
-    private static String baseUrl;
-    private boolean acceptNextAlert = true;
-    private static StringBuffer verificationErrors = new StringBuffer();
 
     public static void main(String[] args) throws Exception {
-        System.out.println("Right");
-/*        initDriver();
-        clickLinkApparat();
-        downMarkUp();
-*/
-        // создаем новый экземпляр html unit driver
-        // Обратите внимание, что последующий код не закладывается на
-        // конкретную, имплементацию, а только на интерфейс WebDriver.
-        WebDriver driver = new HtmlUnitDriver();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
+        int result;
+        String proxy1 = "5.9.117.40:3128";
+        String proxy2 = " 178.236.129.5:3128";
+        String url1 = "https://whoer.net/ru";
+        String url2 = "http://amit.ru";
 
-        // Открываем Google
-        driver.get("http://f1.amurobl.ru/reportglonass/");
-        sleep(1000);
-        driver.findElement(By.id("top-image")).click();
-        driver.findElement(By.linkText("Аппарат губернатора области и Правительства области")).click();
-        sleep(1000);
-        driver.findElement(By.id("top-image")).click();
-        driver.findElement(By.linkText("Сковородинский район")).click();
-        sleep(1000);
-        // Находим по имени поле для ввода
-        //WebElement element = driver.findElement(By.name("q"));
+        result = getBaseURL(url1, proxy2, "Узнать свой IP адрес");
+        System.out.print("result = " + result);
 
-        // Вводим ключевое слово для поиска
-        //element.sendKeys("гладиолус");
+        result = getBaseURL(url2, proxy1, "Амурские Информационные Технологии");
+        System.out.print("result = " + result);
 
-        // Отправляем форму в которой находится элемент element.
-        // WebDriver сам найдет, в какой он форме.
-        //element.submit();
+    }
 
-        // Выводим в консоль заголовок страницы
-        //System.out.println("Page title is: " + driver.getTitle());
-        System.out.println("Page Source is: " + driver.getPageSource());
-        if (driver != null) {
+    private static WebDriver initDriver(String PROXY) {
+        System.setProperty("webdriver.chrome.driver", "D:/Java/WebDriver/chromedriver.exe");
+
+        org.openqa.selenium.Proxy proxy = new org.openqa.selenium.Proxy();
+        proxy.setHttpProxy(PROXY)
+                .setFtpProxy(PROXY)
+                .setSslProxy(PROXY);
+
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability(CapabilityType.PROXY, proxy);
+
+        ChromeOptions option = new ChromeOptions();
+        option.addArguments("start-maximized");
+        //option.addArguments("--window-size=500,500");
+        capabilities.setCapability(ChromeOptions.CAPABILITY, option);
+        WebDriver driver = new ChromeDriver(capabilities);
+        driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
+
+        return driver;
+
+    }
+
+    public static int getBaseURL(String baseUrl, String proxyAddressPort, String titlePage) throws InterruptedException {
+        String newTitlePage = "";
+        if (proxyAddressPort != null) {
+            WebDriver driver = initDriver(proxyAddressPort);
+            try {
+                driver.get(baseUrl);
+                sleep(5000);
+                newTitlePage = driver.getTitle();
+            } catch (Exception e) {
+                driver.close();
+                driver.quit();
+                return 3;
+            }
+            newTitlePage = driver.getTitle();
             driver.quit();
+            if (titlePage.equals(newTitlePage)) {
+                System.out.println("newTitlePage = " + newTitlePage);
+                return 1;
+            } else {
+                System.out.print("newTitlePage = " + newTitlePage);
+                return 2;
+            }
+        } else {
+            return 0;
         }
-
-    }
-
-    public static void initDriver() {
-        driver = new FirefoxDriver();
-        baseUrl = "http://f1.amurobl.ru/reportglonass/";
-        driver.navigate().to(baseUrl);
-    }
-
-    public static void clickLinkApparat() throws InterruptedException {
-        sleep(5000);
-        driver.findElement(By.id("top-image")).click();
-        driver.findElement(By.linkText("Аппарат губернатора области и Правительства области")).click();
-        sleep(5000);
-        driver.findElement(By.id("top-image")).click();
-        driver.findElement(By.linkText("Сковородинский район")).click();
-        sleep(5000);
-    }
-
-    public static void downMarkUp() throws Exception {
-        driver.quit();
-        String verificationErrorString = verificationErrors.toString();
-        if (!"".equals(verificationErrorString)) {
-            fail(verificationErrorString);
-        }
+        //driver.findElement(By.linkText(urlClick)).click();
     }
 
 }
