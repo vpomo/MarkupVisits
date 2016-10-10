@@ -23,7 +23,6 @@ public class FileListProxy {
             BufferedReader reader = new BufferedReader(fileReader);
             // считаем сначала первую строку
             String line = reader.readLine();
-            int i = 0;
             while (line != null) {
                 //System.out.println(line);
                 myListProxy.add(new ListProxy(true, line));
