@@ -7,31 +7,39 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static com.vpomo.markupvisits.os.model.InputData.PATH_LIST_PROXY;
+import static com.vpomo.markupvisits.os.model.InputData.PATH_LOGS;
+
 /**
  * Created by Zver on 09.10.2016.
  */
 public class FileListProxy {
-public static final String pathListProxy = "D:/Java/WebDriver/Proxy/listProxy.txt";
-public static final String pathBadProxy = "D:/Java/WebDriver/Proxy/badProxy.txt";
-public static final String pathLogs = "D:/Java/WebDriver/Logs/log.txt";
-
 
     public void writeLog(int result, String proxy, String url){
-        String writedString;
+        String writedString = "";
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss z");
 
-        if (result == 1) {
-            writedString = dateFormat.format(new Date()) + " - " + proxy + " - " + url + " - " + "OK!";
-        } else {
-            writedString = dateFormat.format(new Date()) + " - " + proxy + " - " + url + " - " + "Error" + "(" + result + ")";
+        switch (result) {
+            case 1:
+                writedString = dateFormat.format(new Date()) + " - " + proxy + " - " + url + " - " + "OK!";
+                break;
+            case 2:
+            case 3:
+                writedString = dateFormat.format(new Date()) + " - " + proxy + " - " + url + " - " + "Error" + "(" + result + ")";
+                break;
+            case 100:
+                writedString = proxy + "  " + url;
+                break;
+            default:
+                break;
         }
-        writeStringToFile(pathLogs, writedString);
+        writeStringToFile(PATH_LOGS, writedString);
     }
 
     public ArrayList<ListProxy> readListProxy() {
         ArrayList<ListProxy> myListProxy = new ArrayList<>();
         try {
-            File file = new File(pathListProxy);
+            File file = new File(PATH_LIST_PROXY);
             //создаем объект FileReader для объекта File
             FileReader fileReader = new FileReader(file);
             //создаем BufferedReader с существующего FileReader для построчного считывания
