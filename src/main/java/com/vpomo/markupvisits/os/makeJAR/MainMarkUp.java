@@ -1,13 +1,10 @@
 package com.vpomo.markupvisits.os.makeJAR;
 
-import com.vpomo.markupvisits.os.model.ListProxy;
 import com.vpomo.markupvisits.os.service.FileListProxy;
+import com.vpomo.markupvisits.os.service.Sheduller;
 import com.vpomo.markupvisits.os.service.WebService;
-import sun.util.calendar.BaseCalendar;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+
 
 /**
  * Created by Pomogalov on 04.10.2016.
@@ -17,6 +14,8 @@ public class MainMarkUp {
     public static void main(String[] args) throws Exception {
         FileListProxy fileListProxy = new FileListProxy();
         WebService webService = new WebService();
+        Sheduller sheduller = new Sheduller();
+
         int result;
         String currentProxy;
         String proxy1 = "5.9.117.40:3128";
@@ -24,6 +23,8 @@ public class MainMarkUp {
         String url1 = "https://whoer.net/ru";
         String url2 = "http://amit.ru";
 
+        sheduller.testTimer();
+        /*
         ArrayList<ListProxy> listProxy;
         listProxy = fileListProxy.readListProxy();
         //System.out.println(listProxy.get(0).toString());
@@ -37,6 +38,7 @@ public class MainMarkUp {
 
         //result = clickLinkURL(proxy1, url2, "Сервисный центр", "Амурские Информационные Технологии");
         //System.out.println("result = " + result);
+        */
 
     }
 
