@@ -16,16 +16,16 @@ import static java.lang.Thread.sleep;
 public class Sheduller {
     public void testTimer() throws ParseException, InterruptedException {
         TimerTask timerTask = new ShedulledTask();
-        FileListProxy fileListProxy = new FileListProxy();
+        ListFromFile listFromFile = new ListFromFile();
         // стартуем TimerTask в виде демона
 
         Timer timer = new Timer(true);
         String startTimer = TIME_FIRST_START;
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd'--'HH:mm:ss");
         Date startDate= dateFormat.parse(startTimer);
-        fileListProxy.writeLog(100, "Программа стартовала в: " + new Date(), " ");
+        listFromFile.writeLog(100, "Программа стартовала в: " + new Date());
         System.out.println("Программа стартовала в: " + new Date());
-        fileListProxy.writeLog(100, "Накрутка счетчика начнется в: " + startDate, " ");
+        listFromFile.writeLog(100, "Накрутка счетчика начнется в: " + startDate);
         sleep(2000);
         // будем запускать каждый день ( 24 часа * 60 мин * 60 сек * 1000 миллисекунд)
         timer.scheduleAtFixedRate(timerTask, startDate, 24 * 60 * 60 * 1000);
@@ -37,7 +37,7 @@ public class Sheduller {
         }
         timer.cancel();
         try {
-            fileListProxy.writeLog(100, "Программа закончила работу: " + new Date(), " ");
+            listFromFile.writeLog(100, "Программа закончила работу: " + new Date());
             sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();

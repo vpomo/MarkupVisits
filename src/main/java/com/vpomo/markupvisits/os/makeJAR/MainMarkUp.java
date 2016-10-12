@@ -1,6 +1,5 @@
 package com.vpomo.markupvisits.os.makeJAR;
 
-import com.vpomo.markupvisits.os.service.FileListProxy;
 import com.vpomo.markupvisits.os.service.Sheduller;
 import com.vpomo.markupvisits.os.service.WebService;
 
@@ -12,7 +11,6 @@ import com.vpomo.markupvisits.os.service.WebService;
 public class MainMarkUp {
 
     public static void main(String[] args) throws Exception {
-        FileListProxy fileListProxy = new FileListProxy();
         WebService webService = new WebService();
         Sheduller sheduller = new Sheduller();
 

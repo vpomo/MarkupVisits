@@ -1,5 +1,6 @@
 package com.vpomo.markupvisits.os.service;
 
+import com.vpomo.markupvisits.os.model.TrackVisit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -10,6 +11,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import static com.vpomo.markupvisits.os.model.InputData.PATH_CHROME_DRIVER;
 import static java.lang.Thread.sleep;
 
 /**
@@ -17,12 +19,12 @@ import static java.lang.Thread.sleep;
  */
 public class WebService {
 
-    public int getBaseURL(String proxyAddressPort, String baseUrl, String titlePage) throws InterruptedException {
+    public int getBaseURL(String proxyAddressPort, TrackVisit trackVisit) throws InterruptedException {
         String newTitlePage = "";
         if (proxyAddressPort != null) {
             WebDriver driver = initDriver(proxyAddressPort);
             try {
-                driver.get(baseUrl);
+                driver.get(trackVisit.getBaseURL());
                 sleep(5000);
                 newTitlePage = driver.getTitle();
             } catch (Exception e) {
@@ -32,7 +34,7 @@ public class WebService {
             }
             newTitlePage = driver.getTitle();
             driver.quit();
-            if (titlePage.equals(newTitlePage)) {
+            if (trackVisit.getTitlePageBase().equals(newTitlePage)) {
                 System.out.println("newTitlePage = " + newTitlePage);
                 return 1;
             } else {
@@ -44,7 +46,7 @@ public class WebService {
         }
     }
 
-    public int clickLinkURL(String proxyAddressPort, String baseUrl, String urlClick, String titlePage) throws Exception {
+    public int clickLinkURL(String proxyAddressPort, TrackVisit trackVisit) throws InterruptedException {
         String newTitlePage = "";
         Random timeWaiting = new Random();
         int koefTimeWaiting;
@@ -52,7 +54,7 @@ public class WebService {
         if (proxyAddressPort != null) {
             WebDriver driver = initDriver(proxyAddressPort);
             try {
-                driver.get(baseUrl);
+                driver.get(trackVisit.getBaseURL());
                 sleep(5000);
                 newTitlePage = driver.getTitle();
             } catch (Exception e) {
@@ -61,14 +63,28 @@ public class WebService {
                 return 3;
             }
             newTitlePage = driver.getTitle();
-            if (titlePage.equals(newTitlePage)) {
-                driver.findElement(By.linkText(urlClick)).click();
-                koefTimeWaiting = timeWaiting.nextInt(5);
-                sleep(3000 + koefTimeWaiting * 1000);
-                newTitlePage = driver.getTitle();
-                System.out.println("newTitlePage = " + newTitlePage);
-                koefTimeWaiting = timeWaiting.nextInt(5);
-                sleep(2000 + koefTimeWaiting * 1000);
+            if (trackVisit.getTitlePageBase().equals(newTitlePage)) {
+                if (!trackVisit.getClickOneURL().equals("null")) {
+                    driver.findElement(By.linkText(trackVisit.getClickOneURL())).click();
+                    koefTimeWaiting = timeWaiting.nextInt(5);
+                    sleep(3000 + koefTimeWaiting * 1000);
+                    newTitlePage = driver.getTitle();
+
+                    System.out.println("newTitlePage = " + newTitlePage);
+                    koefTimeWaiting = timeWaiting.nextInt(5);
+                    sleep(2000 + koefTimeWaiting * 1000);
+                }
+                if (!trackVisit.getClickTwoURL().equals("null")) {
+                    driver.findElement(By.linkText(trackVisit.getClickOneURL())).click();
+                    koefTimeWaiting = timeWaiting.nextInt(5);
+                    sleep(3000 + koefTimeWaiting * 1000);
+                    newTitlePage = driver.getTitle();
+
+                    System.out.println("newTitlePage = " + newTitlePage);
+                    koefTimeWaiting = timeWaiting.nextInt(5);
+                    sleep(2000 + koefTimeWaiting * 1000);
+                }
+
                 driver.quit();
                 return 1;
             } else {
@@ -82,7 +98,7 @@ public class WebService {
     }
 
     public WebDriver initDriver(String PROXY) {
-        System.setProperty("webdriver.chrome.driver", "D:/Java/WebDriver/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", PATH_CHROME_DRIVER);
 
         org.openqa.selenium.Proxy proxy = new org.openqa.selenium.Proxy();
         proxy.setHttpProxy(PROXY)
@@ -97,8 +113,8 @@ public class WebService {
         capabilities.setCapability(ChromeOptions.CAPABILITY, option);
         WebDriver driver = new ChromeDriver(capabilities);
 
-        driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
-        driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 
         return driver;
     }

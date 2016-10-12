@@ -1,3 +1,5 @@
+http://free-proxy.cz/ru/proxylist/country/RU/http/speed/all
+
 http://internetka.in.ua/selenium-proxy/
 
 Самый простой способ запуска автотестов через прокси заключается в ручном изменении настроек Вашей операционной системы.
