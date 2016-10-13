@@ -18,7 +18,7 @@ import static com.vpomo.markupvisits.os.model.InputData.PATH_TRACK_VISIT;
  */
 public class ListFromFile {
 
-    public void writeLog(int result, String proxy, String url){
+    public void writeLog(int result, String proxy, String url) {
         String writedString = "";
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss z");
 
@@ -38,7 +38,7 @@ public class ListFromFile {
         writeStringToFile(PATH_LOGS, writedString);
     }
 
-    public void writeLog(int result, String message){
+    public void writeLog(int result, String message) {
         String writedString = "";
         switch (result) {
             case 100:
@@ -96,14 +96,18 @@ public class ListFromFile {
                 scanner.useDelimiter(",");
                 while (scanner.hasNext()) {
                     String data = scanner.next();
-                    if (i==0) {
+                    if (i == 0) {
                         trackVisit.setBaseURL(data);
-                    } else if (i==1){
+                    } else if (i == 1) {
                         trackVisit.setTitlePageBase(data);
-                    } else if(i==2) {
+                    } else if (i == 2) {
                         trackVisit.setClickOneURL(data);
-                    } else if(i==3) {
+                    } else if (i == 3) {
                         trackVisit.setClickTwoURL(data);
+                    } else if (i == 4) {
+                        trackVisit.setClickThreeURL(data);
+                    } else if (i == 5) {
+                        trackVisit.setClickFourURL(data);
                     } else {
                         writeLog(100, "Некорректные данные для трэккинга");
                     }
@@ -129,13 +133,13 @@ public class ListFromFile {
         FileWriter fileWriter = null;
         BufferedWriter bufferedWriter = null;
         String dataWithNewLine = writingString + System.getProperty("line.separator");
-        try{
+        try {
             fileWriter = new FileWriter(file, true);
             bufferedWriter = new BufferedWriter(fileWriter);
             bufferedWriter.write(dataWithNewLine);
         } catch (IOException e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             try {
                 bufferedWriter.close();
                 fileWriter.close();

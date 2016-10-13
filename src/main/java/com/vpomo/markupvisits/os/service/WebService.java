@@ -84,6 +84,26 @@ public class WebService {
                     koefTimeWaiting = timeWaiting.nextInt(5);
                     sleep(2000 + koefTimeWaiting * 1000);
                 }
+                if (!trackVisit.getClickThreeURL().equals("null")) {
+                    driver.findElement(By.linkText(trackVisit.getClickThreeURL())).click();
+                    koefTimeWaiting = timeWaiting.nextInt(5);
+                    sleep(3000 + koefTimeWaiting * 1000);
+                    newTitlePage = driver.getTitle();
+
+                    System.out.println("newTitlePage = " + newTitlePage);
+                    koefTimeWaiting = timeWaiting.nextInt(5);
+                    sleep(2000 + koefTimeWaiting * 1000);
+                }
+                if (!trackVisit.getClickFourURL().equals("null")) {
+                    driver.findElement(By.linkText(trackVisit.getClickFourURL())).click();
+                    koefTimeWaiting = timeWaiting.nextInt(5);
+                    sleep(3000 + koefTimeWaiting * 1000);
+                    newTitlePage = driver.getTitle();
+
+                    System.out.println("newTitlePage = " + newTitlePage);
+                    koefTimeWaiting = timeWaiting.nextInt(5);
+                    sleep(2000 + koefTimeWaiting * 1000);
+                }
 
                 driver.quit();
                 return 1;

@@ -20,7 +20,7 @@ import static java.lang.Thread.sleep;
  */
 public class TestProxy {
     public static void main(String[] args) throws Exception {
-        TrackVisit trackVisit = new TrackVisit("http://www.amur.info","ИА \"Амур.инфо\"","null","null");
+        TrackVisit trackVisit = new TrackVisit("http://www.amur.info","ИА \"Амур.инфо\"","null","null","null","null");
         WebService webService = new WebService();
         ListFromFile listFromFile = new ListFromFile();
         String currentProxy = "";

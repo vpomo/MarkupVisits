@@ -14,7 +14,7 @@ import static java.lang.Thread.sleep;
  * Created by Pomogalov on 11.10.2016.
  */
 public class Sheduller {
-    public void testTimer() throws ParseException, InterruptedException {
+    public void runTimer() throws ParseException, InterruptedException {
         TimerTask timerTask = new ShedulledTask();
         ListFromFile listFromFile = new ListFromFile();
         // стартуем TimerTask в виде демона

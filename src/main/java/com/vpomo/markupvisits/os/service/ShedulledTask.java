@@ -47,11 +47,11 @@ public class ShedulledTask extends TimerTask {
         int numberVisit = 0;
 
         // выполнение займет 12 часов или 43 200 000 секунд
+        // выполнение займет 6 часов или 21 600 000 секунд
         // вычисляем среднее время задержки между обращениями к сайту
         numberProxy = listProxy.size();
         numberVisit = listTrackVisit.size();
-        //timeDelay = (int) Math.floor(43200000 / (numberVisit + 3));
-        timeDelay = 0;
+        timeDelay = (int) Math.floor(21600000 / (numberVisit + 3));
         listFromFile.writeLog(100, "Число ссылок на трэккинг = " + numberVisit + "; Число прокси-серверов в списке = " + numberProxy + ";");
 
         try {
@@ -81,7 +81,6 @@ public class ShedulledTask extends TimerTask {
                         listFromFile.writeLog(result, currentProxy, currentTrackVisit.getBaseURL());
 
                         koefTimeWaiting = timeWaiting.nextInt(20);
-                        koefTimeWaiting = 1;
                         Thread.sleep(12000 * koefTimeWaiting + timeDelay);
                     }
                 } else {
