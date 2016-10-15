@@ -2,7 +2,9 @@ package com.vpomo.markupvisits.os.service;
 
 import com.vpomo.markupvisits.os.model.TrackVisit;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.CapabilityType;
@@ -46,13 +48,14 @@ public class WebService {
         }
     }
 
-    public int clickLinkURL(String proxyAddressPort, TrackVisit trackVisit) throws InterruptedException {
+    public int clickLinkURL(String proxyAddressPort, TrackVisit trackVisit) throws InterruptedException, NoSuchElementException  {
         String newTitlePage = "";
         Random timeWaiting = new Random();
         int koefTimeWaiting;
 
         if (proxyAddressPort != null) {
-            WebDriver driver = initDriver(proxyAddressPort);
+            //WebDriver driver = initDriver(proxyAddressPort);
+            WebDriver driver = initDriver();
             try {
                 driver.get(trackVisit.getBaseURL());
                 sleep(5000);
@@ -62,49 +65,91 @@ public class WebService {
                 driver.quit();
                 return 3;
             }
+
             newTitlePage = driver.getTitle();
             if (trackVisit.getTitlePageBase().equals(newTitlePage)) {
                 if (!trackVisit.getClickOneURL().equals("null")) {
-                    driver.findElement(By.linkText(trackVisit.getClickOneURL())).click();
-                    koefTimeWaiting = timeWaiting.nextInt(5);
-                    sleep(3000 + koefTimeWaiting * 1000);
-                    newTitlePage = driver.getTitle();
+                    try {
+                        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                        System.out.println("trackVisit.getClickOneURL() = " + trackVisit.getClickOneURL());
+                        driver.findElement(By.linkText(trackVisit.getClickOneURL())).click();
+                        koefTimeWaiting = timeWaiting.nextInt(5);
+                        sleep(3000 + koefTimeWaiting * 1000);
+                        newTitlePage = driver.getTitle();
 
-                    System.out.println("newTitlePage = " + newTitlePage);
-                    koefTimeWaiting = timeWaiting.nextInt(5);
-                    sleep(2000 + koefTimeWaiting * 1000);
+                        System.out.println("newTitlePage = " + newTitlePage);
+                        koefTimeWaiting = timeWaiting.nextInt(5);
+                        sleep(2000 + koefTimeWaiting * 1000);
+                    } catch (NoSuchElementException ex) {
+                        System.out.println("============================================================");
+                        System.out.println("trackVisit.getClickOneURL() = " + trackVisit.getClickOneURL());
+                        driver.close();
+                        driver.quit();
+                        return 4;
+                    } catch (WebDriverException e) {
+                        System.out.println("000000000000000000000000000000000000000000000000000000000");
+                        System.out.println("trackVisit.getClickOneURL() = " + trackVisit.getClickOneURL());
+                        driver.close();
+                        driver.quit();
+                        return 41;
+                    }
                 }
                 if (!trackVisit.getClickTwoURL().equals("null")) {
-                    driver.findElement(By.linkText(trackVisit.getClickOneURL())).click();
-                    koefTimeWaiting = timeWaiting.nextInt(5);
-                    sleep(3000 + koefTimeWaiting * 1000);
-                    newTitlePage = driver.getTitle();
+                    try {
+                        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                        System.out.println("trackVisit.getClickTwoURL() = " + trackVisit.getClickTwoURL());
 
-                    System.out.println("newTitlePage = " + newTitlePage);
-                    koefTimeWaiting = timeWaiting.nextInt(5);
-                    sleep(2000 + koefTimeWaiting * 1000);
+                        driver.findElement(By.linkText(trackVisit.getClickTwoURL())).click();
+                        koefTimeWaiting = timeWaiting.nextInt(5);
+                        sleep(3000 + koefTimeWaiting * 1000);
+                        newTitlePage = driver.getTitle();
+
+                        System.out.println("newTitlePage = " + newTitlePage);
+                        koefTimeWaiting = timeWaiting.nextInt(5);
+                        sleep(2000 + koefTimeWaiting * 1000);
+                    } catch (NoSuchElementException ex) {
+                        System.out.println("============================================================");
+                        System.out.println("trackVisit.getClickTwoURL() = " + trackVisit.getClickTwoURL());
+                        driver.close();
+                        driver.quit();
+                        return 5;
+                    } 
                 }
                 if (!trackVisit.getClickThreeURL().equals("null")) {
-                    driver.findElement(By.linkText(trackVisit.getClickThreeURL())).click();
-                    koefTimeWaiting = timeWaiting.nextInt(5);
-                    sleep(3000 + koefTimeWaiting * 1000);
-                    newTitlePage = driver.getTitle();
+                    try {
+                        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                        System.out.println("getClickThreeURL()) = " + trackVisit.getClickThreeURL());
 
-                    System.out.println("newTitlePage = " + newTitlePage);
-                    koefTimeWaiting = timeWaiting.nextInt(5);
-                    sleep(2000 + koefTimeWaiting * 1000);
+                        driver.findElement(By.linkText(trackVisit.getClickThreeURL())).click();
+                        koefTimeWaiting = timeWaiting.nextInt(5);
+                        sleep(3000 + koefTimeWaiting * 1000);
+                        newTitlePage = driver.getTitle();
+
+                        System.out.println("newTitlePage = " + newTitlePage);
+                        koefTimeWaiting = timeWaiting.nextInt(5);
+                        sleep(2000 + koefTimeWaiting * 1000);
+                    } catch (NoSuchElementException ex) {
+                        driver.close();
+                        driver.quit();
+                        return 6;
+                    }
                 }
                 if (!trackVisit.getClickFourURL().equals("null")) {
-                    driver.findElement(By.linkText(trackVisit.getClickFourURL())).click();
-                    koefTimeWaiting = timeWaiting.nextInt(5);
-                    sleep(3000 + koefTimeWaiting * 1000);
-                    newTitlePage = driver.getTitle();
+                    try {
+                        driver.findElement(By.linkText(trackVisit.getClickFourURL())).click();
+                        koefTimeWaiting = timeWaiting.nextInt(5);
+                        sleep(3000 + koefTimeWaiting * 1000);
+                        newTitlePage = driver.getTitle();
 
-                    System.out.println("newTitlePage = " + newTitlePage);
-                    koefTimeWaiting = timeWaiting.nextInt(5);
-                    sleep(2000 + koefTimeWaiting * 1000);
+                        System.out.println("newTitlePage = " + newTitlePage);
+                        koefTimeWaiting = timeWaiting.nextInt(5);
+                        sleep(2000 + koefTimeWaiting * 1000);
+                    } catch (NoSuchElementException ex) {
+                        driver.close();
+                        driver.quit();
+                        return 7;
+                    }
                 }
-
                 driver.quit();
                 return 1;
             } else {
@@ -137,6 +182,27 @@ public class WebService {
         driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 
         return driver;
+    }
+
+    public WebDriver initDriver() {
+        System.setProperty("webdriver.chrome.driver", PATH_CHROME_DRIVER);
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        ChromeOptions option = new ChromeOptions();
+        option.addArguments(getCurrentSizeWindow());
+        capabilities.setCapability(ChromeOptions.CAPABILITY, option);
+        WebDriver driver = new ChromeDriver(capabilities);
+        driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+        return driver;
+    }
+
+    private boolean isElementPresent(By by, WebDriver driver) {
+        try {
+            driver.findElement(by);
+            return true;
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 
     public String getCurrentSizeWindow() {

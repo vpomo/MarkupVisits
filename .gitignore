@@ -1,4 +1,5 @@
 /build/
 /dist/
 /target/
-/out/
+out/
+out/artifacts/MarkupVisits_jar/MarkupVisits.jar

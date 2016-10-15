@@ -52,6 +52,7 @@ public class ShedulledTask extends TimerTask {
         numberProxy = listProxy.size();
         numberVisit = listTrackVisit.size();
         timeDelay = (int) Math.floor(21600000 / (numberVisit + 3));
+        //timeDelay = 1000;
         listFromFile.writeLog(100, "Число ссылок на трэккинг = " + numberVisit + "; Число прокси-серверов в списке = " + numberProxy + ";");
 
         try {
