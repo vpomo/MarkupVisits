@@ -7,6 +7,8 @@ import com.vpomo.markupvisits.os.service.WebService;
 
 import java.util.ArrayList;
 
+import static com.vpomo.markupvisits.os.model.InputData.PATH_LIST_PROXY;
+
 /**
  * Created by Pomogalov on 05.10.2016.
  */
@@ -20,7 +22,8 @@ public class TestProxy {
         ArrayList<TrackVisit> listTrackVisit = new ArrayList<>();
 
         int result;
-        ArrayList<ListProxy> listProxy = listFromFile.readListProxy();
+        String currentProxy = "444";
+        ArrayList<ListProxy> listProxy = listFromFile.readListProxy(PATH_LIST_PROXY);
 
         System.out.println("trackVisit.getTitlePageBase() = " + trackVisit.getTitlePageBase());
         System.out.println("trackVisit.getClickOneURL() = " + trackVisit.getClickOneURL());
@@ -29,22 +32,20 @@ public class TestProxy {
         System.out.println("trackVisit.getClickFourURL() = " + trackVisit.getClickFourURL());
         System.out.println("trackVisit.getBaseURL() = " + trackVisit.getBaseURL());
 
-        result = webService.clickLinkURL("222", trackVisit);
-        System.out.println("result=" + result);
-
         listTrackVisit = listFromFile.readListTrackVisit();
 
         for (int i = 0; i < listTrackVisit.size(); i++) {
+            System.out.println("trackVisit.getBaseURL() = " + listTrackVisit.get(i).getBaseURL());
             System.out.println("trackVisit.getTitlePageBase() = " + listTrackVisit.get(i).getTitlePageBase());
             System.out.println("trackVisit.getClickOneURL() = " + listTrackVisit.get(i).getClickOneURL());
             System.out.println("trackVisit.getClickTwoURL() = " + listTrackVisit.get(i).getClickTwoURL());
             System.out.println("trackVisit.getClickThreeURL() = " + listTrackVisit.get(i).getClickThreeURL());
             System.out.println("trackVisit.getClickFourURL() = " + listTrackVisit.get(i).getClickFourURL());
-            System.out.println("trackVisit.getBaseURL() = " + listTrackVisit.get(i).getBaseURL());
 
-            result = webService.clickLinkURL("222", listTrackVisit.get(i));
+            result = webService.clickLinkURL(currentProxy, listTrackVisit.get(i));
             System.out.println("URL=" + listTrackVisit.get(i).getBaseURL() + " result=" + result);
-            listFromFile.writeLog(100, "URL=" + listTrackVisit.get(i).getBaseURL() + " result=" + result);
+            listFromFile.writeLog(result, currentProxy, listTrackVisit.get(i).getBaseURL());
+            //listFromFile.writeLog(100, "URL=" + listTrackVisit.get(i).getBaseURL() + " result=" + result);
         }
 
 

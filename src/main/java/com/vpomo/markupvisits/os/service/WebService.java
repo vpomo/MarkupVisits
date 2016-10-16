@@ -27,7 +27,7 @@ public class WebService {
             WebDriver driver = initDriver(proxyAddressPort);
             try {
                 driver.get(trackVisit.getBaseURL());
-                sleep(5000);
+                sleep(3000);
                 newTitlePage = driver.getTitle();
             } catch (Exception e) {
                 driver.close();
@@ -72,6 +72,8 @@ public class WebService {
                     try {
                         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                         System.out.println("trackVisit.getClickOneURL() = " + trackVisit.getClickOneURL());
+                        koefTimeWaiting = timeWaiting.nextInt(5);
+                        sleep(3000 + koefTimeWaiting * 1000);
                         driver.findElement(By.linkText(trackVisit.getClickOneURL())).click();
                         koefTimeWaiting = timeWaiting.nextInt(5);
                         sleep(3000 + koefTimeWaiting * 1000);
@@ -85,10 +87,8 @@ public class WebService {
                         System.out.println("trackVisit.getClickOneURL() = " + trackVisit.getClickOneURL());
                         driver.close();
                         driver.quit();
-                        return 4;
+                        return 40;
                     } catch (WebDriverException e) {
-                        System.out.println("000000000000000000000000000000000000000000000000000000000");
-                        System.out.println("trackVisit.getClickOneURL() = " + trackVisit.getClickOneURL());
                         driver.close();
                         driver.quit();
                         return 41;
@@ -98,7 +98,8 @@ public class WebService {
                     try {
                         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                         System.out.println("trackVisit.getClickTwoURL() = " + trackVisit.getClickTwoURL());
-
+                        koefTimeWaiting = timeWaiting.nextInt(5);
+                        sleep(3000 + koefTimeWaiting * 1000);
                         driver.findElement(By.linkText(trackVisit.getClickTwoURL())).click();
                         koefTimeWaiting = timeWaiting.nextInt(5);
                         sleep(3000 + koefTimeWaiting * 1000);
@@ -112,42 +113,53 @@ public class WebService {
                         System.out.println("trackVisit.getClickTwoURL() = " + trackVisit.getClickTwoURL());
                         driver.close();
                         driver.quit();
-                        return 5;
-                    } 
+                        return 50;
+                    } catch (WebDriverException e) {
+                        driver.close();
+                        driver.quit();
+                        return 51;
+                    }
                 }
                 if (!trackVisit.getClickThreeURL().equals("null")) {
                     try {
                         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                         System.out.println("getClickThreeURL()) = " + trackVisit.getClickThreeURL());
-
+                        koefTimeWaiting = timeWaiting.nextInt(5);
+                        sleep(3000 + koefTimeWaiting * 1000);
                         driver.findElement(By.linkText(trackVisit.getClickThreeURL())).click();
                         koefTimeWaiting = timeWaiting.nextInt(5);
                         sleep(3000 + koefTimeWaiting * 1000);
                         newTitlePage = driver.getTitle();
-
                         System.out.println("newTitlePage = " + newTitlePage);
                         koefTimeWaiting = timeWaiting.nextInt(5);
                         sleep(2000 + koefTimeWaiting * 1000);
                     } catch (NoSuchElementException ex) {
                         driver.close();
                         driver.quit();
-                        return 6;
+                        return 60;
+                    } catch (WebDriverException e) {
+                        driver.close();
+                        driver.quit();
+                        return 61;
                     }
                 }
                 if (!trackVisit.getClickFourURL().equals("null")) {
                     try {
-                        driver.findElement(By.linkText(trackVisit.getClickFourURL())).click();
                         koefTimeWaiting = timeWaiting.nextInt(5);
                         sleep(3000 + koefTimeWaiting * 1000);
+                        driver.findElement(By.linkText(trackVisit.getClickFourURL())).click();
                         newTitlePage = driver.getTitle();
-
                         System.out.println("newTitlePage = " + newTitlePage);
                         koefTimeWaiting = timeWaiting.nextInt(5);
                         sleep(2000 + koefTimeWaiting * 1000);
                     } catch (NoSuchElementException ex) {
                         driver.close();
                         driver.quit();
-                        return 7;
+                        return 70;
+                    } catch (WebDriverException e) {
+                        driver.close();
+                        driver.quit();
+                        return 71;
                     }
                 }
                 driver.quit();
@@ -221,7 +233,7 @@ public class WebService {
                 sizeWindow = "--window-size=1024,768";
                 break;
             case 3:
-                sizeWindow = "--window-size=500,400";
+                sizeWindow = "--window-size=768,1024";
                 break;
             default:
                 sizeWindow = "start-maximized";

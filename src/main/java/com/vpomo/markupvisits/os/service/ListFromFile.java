@@ -30,7 +30,31 @@ public class ListFromFile {
                 writedString = dateFormat.format(new Date()) + " - " + proxy + " - " + url + " - " + "Error" + "(" + result + ") - The page wasn't loaded";
                 break;
             case 3:
-                writedString = dateFormat.format(new Date()) + " - " + proxy + " - " + url + " - " + "Error" + "(" + result + ") - Exception";
+                writedString = dateFormat.format(new Date()) + " - " + proxy + " - " + url + " - " + "Error" + "(" + result + ") - Base Page Exception";
+                break;
+            case 40:
+                writedString = dateFormat.format(new Date()) + " - " + proxy + " - " + url + " - " + "Error" + "(" + result + ") - Page 1 (No such element Exception)";
+                break;
+            case 41:
+                writedString = dateFormat.format(new Date()) + " - " + proxy + " - " + url + " - " + "Error" + "(" + result + ") - Page 1 (WebDriver Exception)";
+                break;
+            case 50:
+                writedString = dateFormat.format(new Date()) + " - " + proxy + " - " + url + " - " + "Error" + "(" + result + ") - Page 2 (No such element Exception)";
+                break;
+            case 51:
+                writedString = dateFormat.format(new Date()) + " - " + proxy + " - " + url + " - " + "Error" + "(" + result + ") - Page 2 (WebDriver Exception)";
+                break;
+            case 60:
+                writedString = dateFormat.format(new Date()) + " - " + proxy + " - " + url + " - " + "Error" + "(" + result + ") - Page 3 (No such element Exception)";
+                break;
+            case 61:
+                writedString = dateFormat.format(new Date()) + " - " + proxy + " - " + url + " - " + "Error" + "(" + result + ") - Page 3 (WebDriver Exception)";
+                break;
+            case 70:
+                writedString = dateFormat.format(new Date()) + " - " + proxy + " - " + url + " - " + "Error" + "(" + result + ") - Page 4 (No such element Exception)";
+                break;
+            case 71:
+                writedString = dateFormat.format(new Date()) + " - " + proxy + " - " + url + " - " + "Error" + "(" + result + ") - Page 4 (WebDriver Exception)";
                 break;
             default:
                 break;
@@ -50,10 +74,10 @@ public class ListFromFile {
         writeStringToFile(PATH_LOGS, writedString);
     }
 
-    public ArrayList<ListProxy> readListProxy() {
+    public ArrayList<ListProxy> readListProxy(String pathToFile) {
         ArrayList<ListProxy> myListProxy = new ArrayList<>();
         try {
-            File file = new File(PATH_LIST_PROXY);
+            File file = new File(pathToFile);
             //создаем объект FileReader для объекта File
             FileReader fileReader = new FileReader(file);
             //создаем BufferedReader с существующего FileReader для построчного считывания
@@ -147,6 +171,15 @@ public class ListFromFile {
                 e.printStackTrace();
             }
         }
+    }
+
+    public int deleteFile(String pathToFile) {
+        File file = new File(pathToFile);
+        if (file.exists()) {
+            file.delete();
+            return 1;
+        }
+        return 0;
     }
 
 }
