@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
-import static com.vpomo.markupvisits.os.model.InputData.PATH_LIST_PROXY;
 import static com.vpomo.markupvisits.os.model.InputData.PATH_LOGS;
 import static com.vpomo.markupvisits.os.model.InputData.PATH_TRACK_VISIT;
 
@@ -106,11 +105,9 @@ public class ListFromFile {
         Scanner scanner = null;
         int i = 0;
         try {
-            File file = new File(PATH_TRACK_VISIT);
-            //создаем объект FileReader для объекта File
-            FileReader fileReader = new FileReader(file);
-            //создаем BufferedReader с существующего FileReader для построчного считывания
-            BufferedReader reader = new BufferedReader(fileReader);
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(
+                            new FileInputStream(PATH_TRACK_VISIT), "UTF-8"));
             // считаем сначала первую строку
             String line = reader.readLine();
             while (line != null) {
@@ -143,7 +140,6 @@ public class ListFromFile {
                 line = reader.readLine();
             }
             reader.close();
-            fileReader.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

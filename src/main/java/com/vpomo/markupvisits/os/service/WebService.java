@@ -27,7 +27,7 @@ public class WebService {
             WebDriver driver = initDriver(proxyAddressPort);
             try {
                 driver.get(trackVisit.getBaseURL());
-                sleep(3000);
+                sleep(6000);
                 newTitlePage = driver.getTitle();
             } catch (Exception e) {
                 driver.close();
@@ -54,8 +54,8 @@ public class WebService {
         int koefTimeWaiting;
 
         if (proxyAddressPort != null) {
-            //WebDriver driver = initDriver(proxyAddressPort);
-            WebDriver driver = initDriver();
+            WebDriver driver = initDriver(proxyAddressPort);
+            //WebDriver driver = initDriver();
             try {
                 driver.get(trackVisit.getBaseURL());
                 sleep(5000);
@@ -166,6 +166,7 @@ public class WebService {
                 return 1;
             } else {
                 System.out.print("newTitlePage = " + newTitlePage);
+                System.out.print("oldTitlePage = " + trackVisit.getTitlePageBase());
                 driver.quit();
                 return 2;
             }
@@ -200,6 +201,7 @@ public class WebService {
         System.setProperty("webdriver.chrome.driver", PATH_CHROME_DRIVER);
         DesiredCapabilities capabilities = new DesiredCapabilities();
         ChromeOptions option = new ChromeOptions();
+        option.addArguments();
         option.addArguments(getCurrentSizeWindow());
         capabilities.setCapability(ChromeOptions.CAPABILITY, option);
         WebDriver driver = new ChromeDriver(capabilities);
@@ -233,7 +235,7 @@ public class WebService {
                 sizeWindow = "--window-size=1024,768";
                 break;
             case 3:
-                sizeWindow = "--window-size=768,1024";
+                sizeWindow = "--window-size=1280,1024";
                 break;
             default:
                 sizeWindow = "start-maximized";

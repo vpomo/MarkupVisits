@@ -24,8 +24,6 @@ public class ShedulledTask extends TimerTask {
         this.listFromFile = new ListFromFile();
         this.listTrackVisit = new ArrayList<>();
         this.webService = new WebService();
-
-        this.listProxy = listFromFile.readListProxy(PATH_LIST_PROXY);
         this.listTrackVisit = listFromFile.readListTrackVisit();
     }
 
@@ -33,12 +31,10 @@ public class ShedulledTask extends TimerTask {
     public void run() {
         System.out.println("Начат очередной обход сайтов из списка в: " + new Date());
         this.listFromFile.writeLog(100, "Начат очередной обход сайтов из списка в: " + new Date());
-        try {
-            makeListWorkingProxy();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        //completeTask();
+        //this.listFromFile.writeLog(100, "Начата проверка рабочих прокси-серверов из списка в: " + new Date());
+        //makeListWorkingProxy();
+        //this.listFromFile.writeLog(100, "Закончена проверка рабочих прокси-серверов из списка в: " + new Date());
+        completeTask();
         System.out.println("Очередной обход сайтов из списка закончен в: " + new Date());
         this.listFromFile.writeLog(100, "Очередной обход сайтов из списка закончен в: " + new Date());
     }
@@ -55,7 +51,7 @@ public class ShedulledTask extends TimerTask {
         int numberProxy = listProxy.size();
         System.out.println("numberProxy = " + numberProxy);
 
-        if (listFromFile.deleteFile(PATH_LIST_PROXY) == 1){
+        if (listFromFile.deleteFile(PATH_LIST_PROXY) == 1) {
             System.out.println("File deleted ..................................................");
         }
 
@@ -100,41 +96,43 @@ public class ShedulledTask extends TimerTask {
         // выполнение займет 12 часов или 43 200 000 секунд
         // выполнение займет 6 часов или 21 600 000 секунд
         // вычисляем среднее время задержки между обращениями к сайту
+        listProxy = listFromFile.readListProxy(PATH_LIST_PROXY);
         numberProxy = listProxy.size();
+
         numberVisit = listTrackVisit.size();
         timeDelay = (int) Math.floor(21600000 / (numberVisit + 3));
         //timeDelay = 1000;
         listFromFile.writeLog(100, "Число ссылок на трэккинг = " + numberVisit + "; Число прокси-серверов в списке = " + numberProxy + ";");
 
         try {
-            j = 0;
+            j = -1;
             if (numberVisit > 0) {
                 if (numberProxy > 0) {
                     for (i = 0; i < numberVisit; i++) {
-                        if (numberProxy > i) {
-                            j = i;
+                        if (j == (numberProxy - 1)) {
+                            j = 0;
                         } else {
-                            if (numberProxy == i) {
-                                j = 0;
-                            } else {
-                                if (j == numberProxy) {
-                                    j = 0;
-                                } else {
-                                    j = j + 1;
-                                }
-                            }
+                            j = j + 1;
                         }
+
+
                         System.out.println("i=" + i + " j=" + j);
                         currentProxy = listProxy.get(j).getAddressPort();
                         currentTrackVisit = listTrackVisit.get(i);
-
                         result = webService.clickLinkURL(currentProxy, currentTrackVisit);
                         System.out.println("result = " + result);
                         listFromFile.writeLog(result, currentProxy, currentTrackVisit.getBaseURL());
 
-                        koefTimeWaiting = timeWaiting.nextInt(20);
-                        Thread.sleep(12000 * koefTimeWaiting + timeDelay);
+                        if ((result == 2) || (result == 3)) {
+                            i--;
+                            listProxy.get(j).setAvailability(false);
+                        } else {
+                            System.out.println("Задержка ...");
+                            koefTimeWaiting = timeWaiting.nextInt(20);
+                            Thread.sleep(12000 * koefTimeWaiting + timeDelay);
+                        }
                     }
+
                 } else {
                     listFromFile.writeLog(100, "Ошибка! Не сформирован файл со списком прокси-серверов ...");
                 }
