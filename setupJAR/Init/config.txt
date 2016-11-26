@@ -1,0 +1,9 @@
+TIME_FIRST_START = 2016/11/26--07:01:00
+NUMBER_DAYS_RUNNING = 365
+PATH_CHROME_DRIVER = ./setupJAR/chromedriver.exe
+
+PATH_LIST_PROXY = ./setupJAR/Proxy/listProxy.txt
+PATH_LIST_DIRTY_PROXY = ./setupJAR/Proxy/listDirtyProxy.txt
+PATH_BAD_PROXY = ./setupJAR/Proxy/badProxy.txt
+PATH_LOGS = ./setupJAR/Logs/log.txt
+PATH_TRACK_VISIT = ./setupJAR/Init/track.txt

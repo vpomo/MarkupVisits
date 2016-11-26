@@ -24,7 +24,7 @@
         <module name="MarkupVisits" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
+    <bytecodeTargetLevel target="1.7">
       <module name="MarkupVisits" target="1.7" />
     </bytecodeTargetLevel>
   </component>

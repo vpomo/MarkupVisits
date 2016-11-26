@@ -5,12 +5,9 @@ import com.vpomo.markupvisits.os.model.TrackVisit;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Scanner;
+import java.util.*;
 
-import static com.vpomo.markupvisits.os.model.InputData.PATH_LOGS;
-import static com.vpomo.markupvisits.os.model.InputData.PATH_TRACK_VISIT;
+import static com.vpomo.markupvisits.os.model.Settings.*;
 
 /**
  * Created by Zver on 09.10.2016.
@@ -147,6 +144,7 @@ public class ListFromFile {
         }
         return listTrackVisit;
     }
+
 
     public void writeStringToFile(String pathToFile, String writingString) {
         File file = new File(pathToFile);

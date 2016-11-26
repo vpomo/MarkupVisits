@@ -13,7 +13,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-import static com.vpomo.markupvisits.os.model.InputData.PATH_CHROME_DRIVER;
+import static com.vpomo.markupvisits.os.model.Settings.PATH_CHROME_DRIVER;
 import static java.lang.Thread.sleep;
 
 /**

@@ -6,8 +6,8 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static com.vpomo.markupvisits.os.model.InputData.NUMBER_DAYS_RUNNING;
-import static com.vpomo.markupvisits.os.model.InputData.TIME_FIRST_START;
+import static com.vpomo.markupvisits.os.model.Settings.NUMBER_DAYS_RUNNING;
+import static com.vpomo.markupvisits.os.model.Settings.TIME_FIRST_START;
 import static java.lang.Thread.sleep;
 
 /**

@@ -8,8 +8,8 @@ import java.util.Date;
 import java.util.Random;
 import java.util.TimerTask;
 
-import static com.vpomo.markupvisits.os.model.InputData.PATH_LIST_DIRTY_PROXY;
-import static com.vpomo.markupvisits.os.model.InputData.PATH_LIST_PROXY;
+import static com.vpomo.markupvisits.os.model.Settings.PATH_LIST_DIRTY_PROXY;
+import static com.vpomo.markupvisits.os.model.Settings.PATH_LIST_PROXY;
 
 /**
  * Created by Zver on 11.10.2016.
@@ -31,9 +31,13 @@ public class ShedulledTask extends TimerTask {
     public void run() {
         System.out.println("Начат очередной обход сайтов из списка в: " + new Date());
         this.listFromFile.writeLog(100, "Начат очередной обход сайтов из списка в: " + new Date());
-        //this.listFromFile.writeLog(100, "Начата проверка рабочих прокси-серверов из списка в: " + new Date());
-        //makeListWorkingProxy();
-        //this.listFromFile.writeLog(100, "Закончена проверка рабочих прокси-серверов из списка в: " + new Date());
+        this.listFromFile.writeLog(100, "Начата проверка рабочих прокси-серверов из списка в: " + new Date());
+        try {
+            makeListWorkingProxy();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        this.listFromFile.writeLog(100, "Закончена проверка рабочих прокси-серверов из списка в: " + new Date());
         completeTask();
         System.out.println("Очередной обход сайтов из списка закончен в: " + new Date());
         this.listFromFile.writeLog(100, "Очередной обход сайтов из списка закончен в: " + new Date());
@@ -41,8 +45,11 @@ public class ShedulledTask extends TimerTask {
 
     private void makeListWorkingProxy() throws InterruptedException {
         TrackVisit trackVisitForTest = new TrackVisit("http://www.amur.info", "ИА \"Амур.инфо\"", "null", "null", "null", "null");
-        listProxy.clear();
-        listProxy.trimToSize();
+        if (listProxy != null) {
+            listProxy.clear();
+            listProxy.trimToSize();
+        }
+
         listProxy = listFromFile.readListProxy(PATH_LIST_DIRTY_PROXY);
         ArrayList<ListProxy> listGoodProxy = new ArrayList<>();
         int result;
@@ -116,19 +123,20 @@ public class ShedulledTask extends TimerTask {
                         }
 
 
-                        System.out.println("i=" + i + " j=" + j);
+                        //System.out.println("i=" + i + " j=" + j);
                         currentProxy = listProxy.get(j).getAddressPort();
                         currentTrackVisit = listTrackVisit.get(i);
                         result = webService.clickLinkURL(currentProxy, currentTrackVisit);
                         System.out.println("result = " + result);
                         listFromFile.writeLog(result, currentProxy, currentTrackVisit.getBaseURL());
+                        koefTimeWaiting = timeWaiting.nextInt(50);
 
                         if ((result == 2) || (result == 3)) {
                             i--;
                             listProxy.get(j).setAvailability(false);
+                            Thread.sleep(36000 * koefTimeWaiting);
                         } else {
                             System.out.println("Задержка ...");
-                            koefTimeWaiting = timeWaiting.nextInt(20);
                             Thread.sleep(12000 * koefTimeWaiting + timeDelay);
                         }
                     }

@@ -7,7 +7,7 @@ import com.vpomo.markupvisits.os.service.WebService;
 
 import java.util.ArrayList;
 
-import static com.vpomo.markupvisits.os.model.InputData.PATH_LIST_PROXY;
+import static com.vpomo.markupvisits.os.model.Settings.PATH_LIST_PROXY;
 
 /**
  * Created by Pomogalov on 05.10.2016.
