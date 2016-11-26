@@ -24,39 +24,83 @@ public class Settings {
     public static String PATH_TO_CONFIG = "./setupJAR/Init/config.txt";
 
     public static String TIME_FIRST_START;
-    public static int NUMBER_DAYS_RUNNING = 365;
+    public static int NUMBER_DAYS_RUNNING = 1;
 
-    public static String PATH_CHROME_DRIVER = "./setupJAR/chromedriver.exe";
+    public static String PATH_CHROME_DRIVER;
 
-    public static String PATH_LIST_PROXY = "./setupJAR/Proxy/listProxy.txt";
-    public static String PATH_LIST_DIRTY_PROXY = "./setupJAR/Proxy/listDirtyProxy.txt";
+    public static String PATH_LIST_PROXY;
+    public static String PATH_LIST_DIRTY_PROXY;
     public static String PATH_BAD_PROXY = "./setupJAR/Proxy/badProxy.txt";
-    public static String PATH_LOGS = "./setupJAR/Logs/log.txt";
-    public static String PATH_TRACK_VISIT = "./setupJAR/Init/track.txt";
+    public static String PATH_LOGS;
+    public static String PATH_TRACK_VISIT;
 
-    public String readConfig() {
+    public static String readConfig() {
         Properties prop = new Properties();
         InputStream propStream = null;
-        String result;
+        String result = "";
         try {
-            propStream = new FileInputStream("./setupJAR/Init/config.txt");
+            propStream = new FileInputStream(PATH_TO_CONFIG);
             if (propStream == null) {
                 System.out.println("Not reading config");
             }
             if (propStream != null) {
                 prop.load(propStream);
                 // read configuration
-                String numberDays = prop.getProperty("NUMBER_DAYS_RUNNING");
+
                 String timeFirstStart = prop.getProperty("TIME_FIRST_START");
-                if (timeFirstStart != null) {
+                if (!timeFirstStart.equals("")) {
                     TIME_FIRST_START = timeFirstStart;
-                } else { result = "Не указана дата и время запуска. Пример: 2016/11/18--07:01:00"}
+                } else {
+                    result = "Не указана дата и время запуска. Пример: 2016/11/18--07:01:00" + "\n";
+                }
 
+                String numberDays = prop.getProperty("NUMBER_DAYS_RUNNING");
+                if (!numberDays.equals("")) {
+                    NUMBER_DAYS_RUNNING = Integer.parseInt(numberDays);
+                } else {
+                    result = result + "Не указанo сколько дней будет работать программа. Пример: 30" + "\n";
+                }
 
-                System.out.println("timeFirstStart = " + TIME_FIRST_START);
+                String pathChromeDriver = prop.getProperty("PATH_CHROME_DRIVER");
+                if (!pathChromeDriver.equals("")) {
+                    PATH_CHROME_DRIVER = pathChromeDriver;
+                } else {
+                    result = result + "Не указан путь к драйверу Chrome. Пример: ./setup/chromedriver.exe" + "\n";
+                }
+
+                String pathListProxy = prop.getProperty("PATH_LIST_PROXY");
+                if (!pathListProxy.equals("")) {
+                    PATH_LIST_PROXY = pathListProxy;
+                } else {
+                    result = result + "Не указан путь к обработанному proxy-списку. Пример: ./setup/Proxy/listProxy.txt" + "\n";
+                }
+
+                String pathListDirtyProxy = prop.getProperty("PATH_LIST_DIRTY_PROXY");
+                if (!pathListDirtyProxy.equals("")) {
+                    PATH_LIST_DIRTY_PROXY = pathListDirtyProxy;
+                } else {
+                    result = result + "Не указан путь к исходному proxy-списку. Пример: ./setup/Proxy/listDirtyProxy.txt" + "\n";
+                }
+
+                String pathLogs = prop.getProperty("PATH_LOGS");
+                if (!pathLogs.equals("")) {
+                    PATH_LOGS = pathLogs;
+                } else {
+                    result = result + "Не указан путь к исходному proxy-списку. Пример: ./setup/Logs/log.txt" + "\n";
+                }
+
+                String pathTrackVisit = prop.getProperty("PATH_TRACK_VISIT");
+                if (!pathTrackVisit.equals("")) {
+                    PATH_TRACK_VISIT = pathTrackVisit;
+                } else {
+                    result = result + "Не указан путь к исходному proxy-списку. Пример: ./setup/Init/track.txt" + "\n";
+                }
+                System.out.println(PATH_CHROME_DRIVER);
             }
+
         } catch (Exception ex) {
-            System.out.println("Couldn't read config.properties");
+            System.out.println("Couldn't read config properties");
+            result = result + "В конфигурационном файле введены не все первоначальные значения ...";
         } finally {
             if (propStream != null) {
                 try {
@@ -68,7 +112,6 @@ public class Settings {
         }
         return result;
     }
-
 
 
 }

@@ -1,7 +1,7 @@
 package com.vpomo.markupvisits.os.makeJAR;
 
+import com.vpomo.markupvisits.os.model.Settings;
 import com.vpomo.markupvisits.os.service.Sheduller;
-
 
 
 /**
@@ -9,7 +9,14 @@ import com.vpomo.markupvisits.os.service.Sheduller;
  */
 public class MainMarkUp {
     public static void main(String[] args) throws Exception {
-        Sheduller sheduller = new Sheduller();
-        sheduller.runTimer();
+        Settings settings = new Settings();
+        System.out.println("Reading config.txt ...");
+        String resultReadConfig = settings.readConfig();
+        if (resultReadConfig.equals("")) {
+            Sheduller sheduller = new Sheduller();
+            sheduller.runTimer();
+        } else {
+            System.out.println(resultReadConfig);
+        }
     }
 }

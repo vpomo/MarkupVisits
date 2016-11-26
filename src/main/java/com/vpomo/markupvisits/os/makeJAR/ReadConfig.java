@@ -9,7 +9,11 @@ public class ReadConfig {
     public static void main (String[] args) {
         Settings settings = new Settings();
         System.out.println("Reading config.txt ...");
-        settings.readConfig();
+        String resultReadConfig = settings.readConfig();
+        if (resultReadConfig.equals("")) {
 
+        } else { System.out.println(resultReadConfig);
+
+        }
     }
 }

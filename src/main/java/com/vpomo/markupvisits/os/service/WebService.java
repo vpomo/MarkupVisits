@@ -48,7 +48,7 @@ public class WebService {
         }
     }
 
-    public int clickLinkURL(String proxyAddressPort, TrackVisit trackVisit) throws InterruptedException, NoSuchElementException  {
+    public int clickLinkURL(String proxyAddressPort, TrackVisit trackVisit) throws InterruptedException, NoSuchElementException {
         String newTitlePage = "";
         Random timeWaiting = new Random();
         int koefTimeWaiting;
@@ -177,6 +177,7 @@ public class WebService {
 
     public WebDriver initDriver(String PROXY) {
         System.setProperty("webdriver.chrome.driver", PATH_CHROME_DRIVER);
+        WebDriver driver;
 
         org.openqa.selenium.Proxy proxy = new org.openqa.selenium.Proxy();
         proxy.setHttpProxy(PROXY)
@@ -189,12 +190,17 @@ public class WebService {
         ChromeOptions option = new ChromeOptions();
         option.addArguments(getCurrentSizeWindow());
         capabilities.setCapability(ChromeOptions.CAPABILITY, option);
-        WebDriver driver = new ChromeDriver(capabilities);
 
-        driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
-        driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+        try {
+            driver = new ChromeDriver(capabilities);
+            driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+            driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 
-        return driver;
+            return driver;
+        } catch (NoClassDefFoundError error) {
+            System.out.println(error);
+        }
+        return null;
     }
 
     public WebDriver initDriver() {
